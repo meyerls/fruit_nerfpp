@@ -1,0 +1,6 @@
+apple.webm filter=lfs diff=lfs merge=lfs -text
+lemon.webm filter=lfs diff=lfs merge=lfs -text
+mango.webm filter=lfs diff=lfs merge=lfs -text
+peach.webm filter=lfs diff=lfs merge=lfs -text
+pear.webm filter=lfs diff=lfs merge=lfs -text
+plum.webm filter=lfs diff=lfs merge=lfs -text
