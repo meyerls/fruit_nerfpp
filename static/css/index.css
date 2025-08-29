@@ -125,3 +125,11 @@ body {
 .results-carousel video {
   margin: 0;
 }
+
+/* Horizontal video strip (no external carousel) */
+.video-strip { display:flex; gap:1rem; overflow-x:auto; padding:.25rem .25rem .5rem;
+               scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+.video-card { flex:0 0 auto; min-width:280px; scroll-snap-align:start; }
+@media (min-width:768px){ .video-card{ min-width:360px; } }
+.video-card .ratio { border-radius:.75rem; box-shadow:0 6px 18px rgba(0,0,0,.06); }
+.video-nav { display:flex; justify-content:center; gap:.75rem; margin-top:.75rem; }

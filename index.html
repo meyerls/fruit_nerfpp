@@ -1,40 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="https://github.com/meyerls/For5G/raw/master/resources/img.png">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>🍎 🥭 FruitNeRF++ 🍑 🍐</title>
+    <meta name="description"
+          content="FruitNeRF++: A Generalized Multi-Fruit Counting Method Utilizing Contrastive Learning and Neural Radiance Fields"/>
+    <meta name="keywords" content="FruitNeRF, neural radiance field, fruit counting, digital horticulture"/>
+
+    <link rel="icon" type="image/png" href="https://github.com/meyerls/For5G/raw/master/resources/img.png"/>
     <meta property="og:image" content="https://github.com/meyerls/For5G/raw/master/resources/img.png"/>
-    <meta property="og:title"
-          content="&#127822 &#129389 FruitNeRF++ &#127819 &#127825"/>
+    <meta property="og:title" content="🍎 🥭 FruitNeRF++ 🍑 🍐"/>
     <meta property="og:description"
-          content="FruitNeRF++: A Generalized Multi-Fruit Counting Method Utilizing
-Contrastive Learning and Neural Radiance Fields"/>
-    <meta charset="utf-8">
-    <meta name="keywords" content="FruitNeRF, neural radiance field, fruit counting, digital horticulture">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>&#127822 &#129389 FruitNeRF++ &#127819 &#127825</title>
-    <script src="static/js/video_comparison.js"></script>
+          content="FruitNeRF++: A Generalized Multi-Fruit Counting Method Utilizing Contrastive Learning and Neural Radiance Fields"/>
+
+    <!-- Bulma + icons -->
+    <link rel="stylesheet" href="./static/css/bulma.min.css"/>
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"/>
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css"/>
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css"/>
+    <link rel="stylesheet" href="./static/css/index.css"/>
+
+    <!-- Compare images lib (kept from original) -->
+    <link rel="stylesheet" href="static/css/dics.min.css"/>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-
-
-    <link rel="stylesheet" href="static/css/dics.min.css">
-    <script src="static/js/dics.min.js"></script>
-
-    <link rel="stylesheet" href="./static/css/bulma.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <link rel="stylesheet" href="./static/css/index.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!--script defer src="./static/js/fontawesome.all.min.js"></script-->
-    <script src="./static/js/bulma-carousel.min.js"></script>
-
-    <script src="./static/js/bulma-slider.min.js"></script>
-    <script src="./static/js/index.js"></script>
-
-
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -43,374 +35,780 @@ Contrastive Learning and Neural Radiance Fields"/>
         }
 
         gtag('js', new Date());
-
         gtag('config', 'G-PYVRSFMDRL');
+    </script>
 
-        document.addEventListener('DOMContentLoaded', domReady);
+    <!-- JQuery + Bulma helpers -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js" defer></script>
+    <script src="./static/js/bulma-slider.min.js" defer></script>
+    <script src="static/js/dics.min.js" defer></script>
+    <script src="./static/js/index.js" defer></script>
 
-        function domReady() {
-            for (const e of document.querySelectorAll(".b-dics")) {
-                new Dics({
-                    container: e,
-                    textPosition: "top"
-                });
+    <!-- Small visual refresh -->
+    <style>
+        :root {
+            --brand-accent: #7c3aed; /* violet */
+            --brand-accent-2: #22c55e; /* green */
+
+            /* Fluid type scale */
+            --step--1: clamp(0.85rem, 0.77rem + 0.35vw, 1.00rem);
+            --step-0: clamp(1.00rem, 0.92rem + 0.40vw, 1.125rem);
+            --step-1: clamp(1.25rem, 1.10rem + 0.70vw, 1.50rem);
+            --step-2: clamp(1.60rem, 1.35rem + 1.00vw, 2.00rem);
+            --step-3: clamp(2.00rem, 1.70rem + 1.50vw, 2.50rem);
+            --step-4: clamp(2.50rem, 2.10rem + 2.20vw, 3.25rem);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            padding-top: 4.25rem;
+            font-size: var(--step-0);
+            line-height: 1.5;
+        }
+
+        /* Bulma title tweaks -> fluid sizes */
+        .title.is-1 {
+            font-size: var(--step-4);
+        }
+
+        .title.is-2 {
+            font-size: var(--step-3);
+        }
+
+        .title.is-3 {
+            font-size: var(--step-2);
+        }
+
+        .title.is-4 {
+            font-size: var(--step-1);
+        }
+
+        .content.is-medium {
+            font-size: var(--step-0);
+        }
+
+        .hero .title em {
+            font-style: normal;
+            color: var(--brand-accent);
+        }
+
+        /* Gradient hero */
+        .hero.is-brand {
+            background: radial-gradient(1200px 600px at 20% 0%, rgba(124, 58, 237, .18), transparent 70%),
+            radial-gradient(1200px 600px at 80% 0%, rgba(34, 197, 94, .18), transparent 70%),
+            linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(249, 250, 251, 1));
+        }
+
+        /* Cards & media */
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+            overflow: hidden;
+        }
+
+        img, video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        iframe {
+            width: 100%;
+            border: 0;
+            border-radius: .75rem;
+        }
+
+        /* Responsive iframes/videos with preserved aspect */
+        .ratio {
+            position: relative;
+            width: 100%;
+        }
+
+        .ratio iframe, .ratio video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: .75rem;
+        }
+
+        .ratio.is-16by9 {
+            padding-top: 56.25%;
+        }
+
+        /* Make Bulma button groups wrap neatly on small screens */
+        .buttons.is-centered,
+        .buttons {
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .buttons .button {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 480px) {
+            .buttons .button {
+                flex: 1 1 calc(50% - .5rem);
+            }
+
+            /* 2 per row on phones */
+        }
+
+        /* Navbar sticky blur */
+        .navbar.is-blur {
+            backdrop-filter: saturate(180%) blur(10px);
+            background-color: rgba(255, 255, 255, .85);
+            border-bottom: 1px solid rgba(0, 0, 0, .07);
+        }
+
+        .navbar .button:hover {
+            background-color: var(--brand-accent);
+            color: #fff;
+            border-color: var(--brand-accent);
+        }
+
+        /* Dataset horizontal strip — responsive, scroll-snap, touch friendly */
+        .video-strip {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(220px, 1fr);
+            gap: 1rem;
+            overflow-x: auto;
+            padding: .25rem .25rem 1rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .video-card {
+            scroll-snap-align: start;
+            margin: 0;
+        }
+
+        .video-card video {
+            border-radius: .75rem;
+        }
+
+        .video-nav {
+            display: flex;
+            justify-content: center;
+            gap: .5rem;
+            margin-top: .75rem;
+        }
+
+        /* Hide nav buttons when wide screens show all cards */
+        @media (min-width: 1024px) {
+            .video-nav {
+                display: none;
             }
         }
 
-    </script>
+        /* Better code block */
+        pre {
+            border-radius: .75rem;
+            padding: 1rem;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow: auto;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid rgba(0, 0, 0, .07);
+        }
+
+        /* Accessibility: respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            video[autoplay] {
+                animation: none !important;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .navbar-menu.is-active {
+                display: block;
+            }
+
+        }
+
+        .logo-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(12px, 4vw, 48px);
+            flex-wrap: nowrap; /* no stacking */
+        }
+
+        .logo-row img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Per-image responsive heights */
+        .logo-row img.iros {
+            height: clamp(40px, 9vw, 70px);
+        }
+
+        .logo-row img.vce {
+            height: clamp(70px, 7vw, 100px);
+        }
+
+        .card .ratio video {
+            width: 100%;
+            height: auto;
+            max-width: 100%; /* don’t overflow card */
+            border-radius: .75rem; /* match your iframe rounding */
+            display: block;
+        }
+
+            .section .card {
+          max-width: 900px;   /* pick a size you like */
+          margin: 0 auto;     /* center */
+        }
+
+    </style>
 
 </head>
 <body>
+<!-- Navbar -->
+<nav class="navbar is-fixed-top is-blur" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="#top" aria-label="FruitNeRF++">
+          <span class="icon-text">
+            <span class="icon"><i class="fas fa-seedling"></i></span>
+            <span><strong>FruitNeRF++</strong></span>
+          </span>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="mainNav">
+                <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="mainNav" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#abstract">Abstract</a>
+                <a class="navbar-item" href="#viewer">Viewer</a>
+                <a class="navbar-item" href="#dataset">Dataset</a>
+                <a class="navbar-item" href="#bibtex">BibTeX</a>
+                <a class="navbar-item" href="https://meyerls.github.io/#projects"> ← Back to my projects</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 
-<section class="hero">
-    <div class="hero-head">
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column has-text-centered">
-                    <br>
-                    <h1 class="title publication-title">&#127822 &#129389 &#127824 &#127819 &#127825 </h1>
-                    <h1 class="title is-1 publication-title"><em>FruitNeRF++</em>: A Generalized Multi-Fruit Counting
-                        Method Utilizing Contrastive Learning and Neural Radiance Fields</h1>
-                    <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://meyerls.github.io">Lukas Meyer</a>,</span>
-                        <span class="author-block">
-              <a href="https://reality.tf.fau.de/staff/t.ardelean.html">Andrei-Timotei Ardelean</a>,</span>
-                        <span class="author-block">
-              <a href="https://reality.tf.fau.de/weyrich.html">Tim Weyrich</a>,</span>
-                        <span class="author-block">
-              <a href="https://scholar.google.com/citations?hl=de&user=cx4AaqoAAAAJ">Marc Stamminger</a>,
-            </span>
+<!-- Hero -->
+<section id="top" class="hero is-brand">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <br>
+            <!-- Logos -->
+            <div class="logo-row mb-5">
+                <img class="logo vce" src="static/images/vce_logo.png" alt="VCE Logo">
+                <img class="logo iros" src="static/images/iros25_logo.png" alt="IROS 2025 Logo">
+            </div>
+            <h1 class="title is-2">🍎 🥭 🍑 🍐</h1>
+            <h2 class="title is-2"><em>FruitNeRF++</em>: A Generalized Multi-Fruit Counting Method Utilizing Contrastive
+                Learning and Neural Radiance Fields</h2>
+            <p class="is-size-5 mt-4">
+                <a href="https://meyerls.github.io" target="_blank" rel="noopener">Lukas Meyer</a>,
+                <a href="https://reality.tf.fau.de/staff/t.ardelean.html" target="_blank" rel="noopener">Andrei‑Timotei
+                    Ardelean</a>,
+                <a href="https://reality.tf.fau.de/weyrich.html" target="_blank" rel="noopener">Tim Weyrich</a>,
+                <a href="https://scholar.google.com/citations?hl=de&user=cx4AaqoAAAAJ" target="_blank" rel="noopener">Marc
+                    Stamminger</a>
+            </p>
+            <p class="is-size-6 mt-2">Visual Computing Erlangen, Friedrich‑Alexander‑Universität
+                Erlangen‑Nürnberg‑Fürth, Germany</p>
 
-                    </div>
-                    <br>
-
-                    <div class="is-size-5 publication-authors">
-                        <span class="author-block">Visual Computing Erlangen, Friedrich-Alexander-Universität Erlangen-Nürnberg-Fürth, Germany,</span>
-                    </div>
-
-                    <div class="column has-text-centered">
-                        <div class="publication-links">
-                            <!-- PDF Link. -->
-                            <span class="link-block">
-                <a href="https://arxiv.org/pdf/2408.06190"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
+            <div class="buttons is-centered mt-5">
+                <a href="https://arxiv.org/pdf/2408.06190" class="button is-dark is-rounded" target="_blank"
+                   rel="noopener">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
                 </a>
-              </span>
-                            <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
+                <a href="https://arxiv.org/abs/2408.06190" class="button is-dark is-rounded" target="_blank"
+                   rel="noopener">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
                 </a>
-              </span>
-                            <!-- Video Link. -->
-                            <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>                  <span>Video (tbd)</span>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="button is-dark is-rounded" target="_blank"
+                   rel="noopener">
+                    <span class="icon"><i class="fab fa-youtube"></i></span><span>Video (tbd)</span>
                 </a>
-              </span>
-                            <!-- Code Link. -->
-                            <span class="link-block">
-                <a href="https://github.com/meyerls/FruitNeRFpp"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-                            <!-- Dataset Link. -->
-                            <span class="link-block">
-                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                           class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a></span>
-                        </div>
-                    </div>
+                <a href="https://github.com/meyerls/FruitNeRFpp" class="button is-dark is-rounded" target="_blank"
+                   rel="noopener">
+                    <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+                </a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="button is-dark is-rounded" target="_blank"
+                   rel="noopener">
+                    <span class="icon"><i class="far fa-images"></i></span><span>Data</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Teaser video -->
+<section class="section is-light">
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div class="ratio is-16by9">
+                    <video class="video" loop playsinline autoplay muted poster=""
+                           src="https://github.com/meyerls/fruit_nerfpp/raw/main/static/videos/fruitnerfpp_website.mp4"></video>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="hero is-light is-small">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <div class="col-md-8 col-md-offset-1">
-                <video class="video" loop playsinline autoplay muted width=70%" type="video/mp4"
-                       src="https://github.com/meyerls/fruit_nerfpp/raw/main/static/videos/fruitnerfpp_website.mp4"></video>
-            </div>
-        </div>
-    </div>
-</section>
-    <div class="hero-body is-light is-centered has-text-centered">
-
-
-<section class="section is-small">
-    <div class="hero-body  has-text-centered">
-        <!-- Abstract. -->
-        <h2 class="title is-3">Abstract</h2>
-            <div class="container has-text-justified is-max-desktop">
+<!-- Abstract -->
+<section id="abstract" class="section">
+    <div class="container">
+        <h3 class="title is-3 has-text-centered">Abstract</h3>
+        <div class="content is-medium has-text-justified" style="max-width: 900px; margin: 0 auto;">
             <p>
                 We introduce FruitNeRF++, a novel fruit-counting approach that combines contrastive learning with neural
-                radiance fields to count fruits from unstructured input photographs of orchards.
-                Our work is based on FruitNeRF, which employs a neural semantic field combined with a fruit-specific
-                clustering approach.
-                The requirement for adaptation for each fruit type limits the applicability of the method, and makes it
+                radiance fields to count fruits from unstructured input photographs of orchards. Our work is based on
+                FruitNeRF, which employs a neural semantic field combined with a fruit-specific clustering approach. The
+                requirement for adaptation for each fruit type limits the applicability of the method and makes it
                 difficult to use in practice.
-                To lift this limitation, we design a shape-agnostic multi-fruit counting framework, that complements the
-                RGB and semantic data with instance masks predicted by a vision foundation model.
-                The masks are used to encode the identity of each fruit as instance embeddings into a neural instance
-                field.
-                By volumetrically sampling the neural fields, we extract a point cloud embedded with the instance
-                features, which can be clustered in a fruit-agnostic manner to obtain the fruit count.
+            </p>
+            <p>
+                To lift this limitation, we design a shape-agnostic multi-fruit counting framework that complements the
+                RGB and semantic data with instance masks predicted by a vision foundation model. The masks are used to
+                encode the identity of each fruit as instance embeddings into a neural instance field. By volumetrically
+                sampling the neural fields, we extract a point cloud embedded with the instance features, which can be
+                clustered in a fruit-agnostic manner to obtain the fruit count.
+            </p>
+            <p>
                 We evaluate our approach using a synthetic dataset containing apples, plums, lemons, pears, peaches, and
-                mangoes, as well as a real-world benchmark apple dataset.
-                Our results demonstrate that FruitNeRF++ is easier to control and compares favorably to other
-                state-of-the-art methods.
+                mangoes, as well as a real-world benchmark apple dataset. Our results demonstrate that FruitNeRF++ is
+                easier to control and compares favorably to other state-of-the-art methods.
             </p>
         </div>
     </div>
 </section>
 
-<section class="hero is-light is-small ">
-    <div class="hero-body is-centered has-text-centered">
-        <h2 class="title is-3">Fruit Point Cloud Viewer</h2>
-        <br>
-        <h3 class="title is-4">Synthetic Apple Tree</h3>
-        <div>
-            <iframe title="Density" frameborder="10" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/8f66b86e0759458b8e84d1ef7d97bfff/embed?preload=1"></iframe>
-            <iframe title="Semantics" frameborder="0" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/bb63a5e7aff94c3c9c1cb2ec097bde48/embed?preload=1"></iframe>
+<!-- Viewer -->
+<section id="viewer" class="section is-light">
+    <div class="container">
+        <h3 class="title is-3 has-text-centered">Fruit Point Cloud Viewer</h3>
+
+        <h4 class="title is-4 has-text-centered">Synthetic Apple Tree</h4>
+        <div class="columns is-multiline">
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Density"
+                                    src="https://sketchfab.com/models/8f66b86e0759458b8e84d1ef7d97bfff/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Semantics"
+                                    src="https://sketchfab.com/models/bb63a5e7aff94c3c9c1cb2ec097bde48/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="title is-4">Real-World Apple Tree</h3>
 
-        <div class="sketchfab-embed-wrapper">
-            <iframe title="Apple Tree Semantics Real" frameborder="0" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/ed10fa8a752045bab3b6f13a71bd28dc/embed?preload=1"></iframe>
-            <iframe title="Apple Tree Instances Real" frameborder="10" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/8d5729a9e7e54ac68c98db437c416bd9/embed?preload=1"></iframe>
-
+        <h4 class="title is-4 has-text-centered">Real‑World Apple Tree</h4>
+        <div class="columns is-multiline">
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Apple Tree Semantics Real"
+                                    src="https://sketchfab.com/models/ed10fa8a752045bab3b6f13a71bd28dc/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Apple Tree Instances Real"
+                                    src="https://sketchfab.com/models/8d5729a9e7e54ac68c98db437c416bd9/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        <h3 class="title is-4">Messy Room 100 - <a
-                href="https://www.robots.ox.ac.uk/~vgg/research/contrastive-lift/" style="color: blue">
-            [Source]</a></h3>
-        <div>
 
-            <iframe title="Messy-Semantic" frameborder="10" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/35488ae68da44a048003e279899704ef/embed?preload=1"></iframe>
-            <iframe title="Messy-Clustered" frameborder="0" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/db275b38722041deb48014c756811dae/embed?preload=1"></iframe>
-            <iframe title="Messy-Clustered-Euclidean_Only" frameborder="0" allowfullscreen mozallowfullscreen="true"
-                    webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking"
-                    width="600" height="400"
-                    xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
-                    src="https://sketchfab.com/models/f45c570d736346e1855a16fc3d63360c/embed?preload=1"></iframe>
-
+        <h4 class="title is-4 has-text-centered">Messy Room 100 — <a
+                href="https://www.robots.ox.ac.uk/~vgg/research/contrastive-lift/" target="_blank" rel="noopener">[Source]</a>
+        </h4>
+        <div class="columns is-multiline">
+            <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Messy‑Semantic"
+                                    src="https://sketchfab.com/models/35488ae68da44a048003e279899704ef/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Messy‑Clustered"
+                                    src="https://sketchfab.com/models/db275b38722041deb48014c756811dae/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="ratio is-16by9">
+                            <iframe title="Messy‑Clustered‑Euclidean‑Only"
+                                    src="https://sketchfab.com/models/f45c570d736346e1855a16fc3d63360c/embed?preload=1"
+                                    allow="autoplay; fullscreen; xr-spatial-tracking" mozallowfullscreen
+                                    webkitallowfullscreen loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="container has-text-justified is-max-desktop">
-            <p>For the messy room dataset, the extracted semantic point cloud is shown on the left. In the middle, the
-                clustered point cloud, using a combination of Euclidean and cosine distances, is visualized. In this
-                case, 99 objects were detected. On the right, the clustering using only Euclidean distance is depicted,
-                with 65 objects identified.</p>
+        <div class="content has-text-justified" style="max-width: 900px; margin: 0 auto;">
+            <p>
+                For the messy room dataset, the extracted semantic point cloud is shown on the left. In the middle, the
+                clustered point cloud (Euclidean + cosine distances) is visualized — 99 objects detected. On the right,
+                clustering using only Euclidean distance — 65 objects.
+            </p>
         </div>
     </div>
 </section>
 
+<!-- Dataset carousel -->
+<section id="dataset" class="section">
+    <div class="container has-text-centered">
+        <h3 class="title is-4">Synthetic Dataset</h3>
 
-<section class="hero is-medium">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h2 class="title is-4 is-centered has-text-centered">Synthetic Dataset</h2>
-            <!--img id="pipeline1" src="static/images/FruitNerf_SyntheticDataset.png" width="72%"-->
-        </div>
-        <h4 class="title is-4 is-centered has-text-centered"></h4>
-        <div class="container">
 
-            <div id="results-carousel" class="carousel results-carousel 3">
-                <div class="item item-apple">
-                    <video poster="" id="apple" autoplay muted loop playsinline height="100%">
+        <div class="video-strip" id="fruit-strip">
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video preload="metadata" autoplay muted loop playsinline>>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/apple.webm"
                                 type="video/webm">
                     </video>
                 </div>
-                <div class="item item-pear">
-                    <video poster="" id="pear" autoplay muted loop playsinline height="100%">
+                <figcaption class="has-text-grey is-size-7 mt-2">Apple</figcaption>
+            </figure>
+
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video preload="metadata" autoplay muted loop playsinline>>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/pear.webm"
                                 type="video/webm">
                     </video>
                 </div>
-                <div class="item item-plum">
-                    <video poster="" id="plum" autoplay muted loop playsinline height="100%">
+                <figcaption class="has-text-grey is-size-7 mt-2">Pear</figcaption>
+            </figure>
+
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video preload="metadata" autoplay muted loop playsinline>>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/plum.webm"
                                 type="video/webm">
                     </video>
                 </div>
-                <div class="item item-mango">
-                    <video poster="" id="mango" autoplay muted loop playsinline height="100%">
+                <figcaption class="has-text-grey is-size-7 mt-2">Plum</figcaption>
+            </figure>
+
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video preload="metadata" autoplay muted loop playsinline>>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/mango.webm"
                                 type="video/webm">
                     </video>
                 </div>
-                <div class="item item-lemon">
-                    <video poster="" id="lemon" autoplay muted loop playsinline height="100%">
+                <figcaption class="has-text-grey is-size-7 mt-2">Mango</figcaption>
+            </figure>
+
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video preload="metadata" autoplay muted loop playsinline>>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/lemon.webm"
                                 type="video/webm">
                     </video>
                 </div>
-                <div class="item item-peach">
-                    <video poster="" id="peach" autoplay muted loop playsinline width="100%">
+                <figcaption class="has-text-grey is-size-7 mt-2">Lemon</figcaption>
+            </figure>
+
+            <figure class="video-card">
+                <div class="ratio is-16by9">
+                    <video autoplay muted loop playsinline>
                         <source src="https://media.githubusercontent.com/media/meyerls/fruit_nerfpp/main/static/videos/peach.webm"
                                 type="video/webm">
                     </video>
                 </div>
-            </div>
-            <p>Thanks to <strong> <a href="https://github.com/GSORF" style="color: blueviolet">Adam Kalisz</a></strong>
-                for rendering the scenes!</p>
-            <div class="container has-text-centered">
+                <figcaption class="has-text-grey is-size-7 mt-2">Peach</figcaption>
+            </figure>
+        </div>
 
-                                        <span class="link-block">
-                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                           class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Download Synthetic Data here</span>
-                  </a></span>
-            </div>
+        <div class="video-nav">
+            <button class="button is-light" id="stripPrev">
+                <span class="icon"><i class="fas fa-chevron-left"></i></span><span>Prev</span>
+            </button>
+            <button class="button is-light" id="stripNext">
+                <span class="icon"><i class="fas fa-chevron-right"></i></span><span>Next</span>
+            </button>
+        </div>
+
+
+        <p class="mt-3">Thanks to <strong><a href="https://github.com/GSORF" target="_blank" rel="noopener"
+                                             style="color: blueviolet">Adam Kalisz</a></strong> for rendering the
+            scenes!</p>
+        <div class="buttons is-centered mt-3">
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="button is-dark is-rounded" target="_blank"
+               rel="noopener">
+                <span class="icon"><i class="far fa-images"></i></span>
+                <span>Download Synthetic Data</span>
+            </a>
         </div>
     </div>
 </section>
 
-<script>
 
-    bulmaCarousel.attach('#results-carousel', {
-        slidesToScroll: 1,
-        slidesToShow: 6
-    });
-
-
-</script>
-
-
-<section class="hero ">
-    <div class="hero-body is-light is-centered has-text-centered">
-
-
-            <h2 class="title is-3">Acknowledgements</h2>
-            <div class="container has-text-justified is-max-desktop">
-
-                <p>This project is funded by the 5G innovation program of the German Federal Ministry for Digital and
-                    Transport under the funding code 165GU103B and the European Union’s Horizon 2020 research and
-                    innovation program under the Marie Skłodowska-Curie grant agreement No 956585.</p>
-
-                <p>The authors gratefully acknowledge the scientific support and HPC resources provided by the Erlangen
-                    National High Performance Computing Center (NHR@FAU) of the Friedrich-Alexander-Universität
-                    Erlangen-Nürnberg (FAU).</p>
-
-                <p>The hardware is funded by the German Research Foundation (DFG).</p>
-
-                <p>We extend our gratitude to <strong>Adam Kalisz</strong> for his unique Blender skills and <strong>Jann-Ole
-                    Henningson</strong> for proof reading our script.</p>
-
-            </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <!--div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-            <h2 class="title is-3">Video</h2>
-            <div class="publication-video">
-                <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+<section class="section is-light">
+    <div class="container">
+        <h3 class="title is-3 has-text-centered">Acknowledgements</h3>
+        <div class="content has-text-justified" style="max-width: 900px; margin: 0 auto;">
+            <p>This project is funded by the 5G innovation program of the German Federal Ministry for Digital and
+                Transport under the funding code 165GU103B and the European Union’s Horizon 2020 research and innovation
+                program under the Marie Skłodowska‑Curie grant agreement No 956585.</p>
+            <p>The authors gratefully acknowledge the scientific support and HPC resources provided by the Erlangen
+                National High Performance Computing Center (NHR@FAU) of the Friedrich‑Alexander‑Universität
+                Erlangen‑Nürnberg (FAU).</p>
+            <p>The hardware is funded by the German Research Foundation (DFG).</p>
+            <p>We extend our gratitude to <strong>Adam Kalisz</strong> for his unique Blender skills and <strong>Jann‑Ole
+                Henningson</strong> for proof‑reading our script.</p>
         </div>
-    </div-->
-    <!--/ Paper video. -->
     </div>
 </section>
 
-
-<section class="section" id="BibTeX">
+<!-- BibTeX -->
+<section id="bibtex" class="section">
     <div class="container is-max-desktop content">
-        <h2 class="title">BibTeX</h2>
-        <pre><code>@Article{FruitNeRFpp2024,
-      author       = {Lukas Meyer and Andrei-Timotei Ardelean and Tim Weyrich and Marc Stamminger},
-      title        = {FruitNeRF++: A Generalized Multi-Fruit Counting Method Utilizing Contrastive Learning and Neural Radiance Fields},
-      journal      = {ArXiv},
-      month        = {September},
-      year         = {2024},
-      url          = {https://meyerls.github.io/fruit_nerfpp}
-}</code></pre>
+        <h3 class="title">BibTeX</h3>
+        <pre><code>@inproceedings{fruitnerfpp2025,
+ author = {Lukas Meyer, Andrei-Timotei Ardelean, Tim Weyrich, Marc Stamminger},
+ title = {FruitNeRF++: A Generalized Multi-Fruit Counting Method Utilizing Contrastive Learning and Neural Radiance Fields},
+ booktitle={2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+ volume={},
+ number={},
+ year = {2025},
+}
+</code></pre>
     </div>
 </section>
 
+<!-- Footer -->
 <footer class="footer">
     <div class="container">
         <div class="content has-text-centered">
-            <a class="icon-link"
-               href="http://scholar.google.comf">
+            <a class="icon-link" href="http://scholar.google.comf" title="Scholar">
                 <i class="fas fa-file-pdf"></i>
             </a>
-            <a class="icon-link" href="https://github.com/meyerls" class="external-link" disabled>
+            <a class="icon-link" href="https://github.com/meyerls" title="GitHub">
                 <i class="fab fa-github"></i>
             </a>
         </div>
-
-
         <div class="columns is-centered">
             <div class="column is-8">
-                <div class="content">
+                <div class="content has-text-centered">
                     <p>
-                        This website is licensed under a <a rel="license"
-                                                            href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-                        Commons Attribution-ShareAlike 4.0 International License</a>.
+                        This website is licensed under a
+                        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
+                            Attribution‑ShareAlike 4.0 International License</a>.
                     </p>
                     <p>
-                        The source code of this website is borrowed from <a
-                            href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
-                        We thank the authors for sharing the template.
+                        Template inspiration from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a> —
+                        thank you!
                     </p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
+
+
+<!-- Page scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Navbar burger toggle (with ARIA sync)
+        const burgers = Array.from(document.querySelectorAll('.navbar-burger'));
+        burgers.forEach(el => {
+            el.addEventListener('click', () => {
+                const targetId = el.dataset.target;
+                const target = document.getElementById(targetId);
+                const active = el.classList.toggle('is-active');
+                if (target) target.classList.toggle('is-active', active);
+                el.setAttribute('aria-expanded', active ? 'true' : 'false');
+            });
+        });
+
+        // Show floating back button on scroll
+        const fab = document.querySelector('.fab-back');
+        const toggleFab = () => {
+            if (fab) fab.style.display = window.scrollY > 600 ? 'block' : 'none';
+        };
+        window.addEventListener('scroll', toggleFab);
+        toggleFab();
+
+        // Init Dics on any compare blocks (kept from original)
+        for (const e of document.querySelectorAll('.b-dics')) {
+            new Dics({container: e, textPosition: 'top'});
+        }
+
+        // Bulma carousel (if present)
+        if (window.bulmaCarousel) {
+            bulmaCarousel.attach('#results-carousel', {slidesToScroll: 1, slidesToShow: 6, infinite: true});
+        }
+
+        // Responsive dataset strip: scroll by one card on buttons, support keyboard & drag
+        const strip = document.getElementById('fruit-strip');
+        const prevBtn = document.getElementById('stripPrev');
+        const nextBtn = document.getElementById('stripNext');
+
+        const scrollByOne = (dir = 1) => {
+            if (!strip) return;
+            const card = strip.querySelector('.video-card');
+            const step = card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(strip).gap || 16) : 280;
+            strip.scrollBy({left: dir * step, behavior: 'smooth'});
+        };
+
+        prevBtn && prevBtn.addEventListener('click', () => scrollByOne(-1));
+        nextBtn && nextBtn.addEventListener('click', () => scrollByOne(1));
+
+        // Keyboard accessible
+        [prevBtn, nextBtn].forEach(btn => btn && btn.setAttribute('aria-controls', 'fruit-strip'));
+
+        // Drag-to-scroll (desktop)
+        let isDown = false, startX = 0, scrollLeft = 0;
+        if (strip) {
+            strip.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - strip.offsetLeft;
+                scrollLeft = strip.scrollLeft;
+                strip.style.cursor = 'grabbing';
+            });
+            document.addEventListener('mouseup', () => {
+                isDown = false;
+                strip && (strip.style.cursor = 'auto');
+            });
+            strip.addEventListener('mouseleave', () => {
+                isDown = false;
+                strip.style.cursor = 'auto';
+            });
+            strip.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - strip.offsetLeft;
+                const walk = (x - startX);
+                strip.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Autoplay safety on iOS / reduced data: start videos when visible
+        const autoVideos = document.querySelectorAll('video[autoplay][muted]');
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const v = entry.target;
+                    if (entry.isIntersecting) {
+                        v.play().catch(() => {
+                        });
+                    } else {
+                        v.pause();
+                    }
+                });
+            }, {threshold: 0.25});
+            autoVideos.forEach(v => io.observe(v));
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const burgers = Array.from(document.querySelectorAll('.navbar-burger'));
+        burgers.forEach(el => {
+            el.addEventListener('click', () => {
+                const targetId = el.getAttribute('data-target') || '';
+                const target = document.getElementById(targetId);
+                if (!target) return;
+                const active = el.classList.toggle('is-active');
+                target.classList.toggle('is-active', active);
+                el.setAttribute('aria-expanded', active ? 'true' : 'false');
+                // Lock background scroll on mobile when open (nice UX)
+                document.documentElement.style.overflow = active ? 'hidden' : '';
+                document.body.style.overflow = active ? 'hidden' : '';
+            });
+        });
+
+        // Close menu after tapping a link (mobile)
+        const menu = document.getElementById('mainNav');
+        if (menu) {
+            menu.querySelectorAll('.navbar-item[href^="#"], .navbar-item[href]').forEach(a => {
+                a.addEventListener('click', () => {
+                    burgers.forEach(b => b.classList.remove('is-active'));
+                    menu.classList.remove('is-active');
+                    document.documentElement.style.overflow = '';
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+    });
+</script>
+
 
 </body>
 </html>

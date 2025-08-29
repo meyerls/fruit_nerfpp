@@ -1,11 +1,9 @@
+/* index.js — filmstrip version (no external libs) */
 window.HELP_IMPROVE_VIDEOJS = false;
 
 var INTERP_BASE = "./static/interpolation/stacked";
 var NUM_INTERP_FRAMES = 240;
-
 var interp_images = [];
-
-
 
 function setInterpolationImage(i) {
   var image = interp_images[i];
@@ -14,54 +12,32 @@ function setInterpolationImage(i) {
   $('#interpolation-image-wrapper').empty().append(image);
 }
 
+$(document).ready(function () {
+  /* Navbar burger toggle */
+  $(".navbar-burger").on("click", function () {
+    $(".navbar-burger").toggleClass("is-active");
+    $(".navbar-menu").toggleClass("is-active");
+  });
 
-$(document).ready(function() {
-    // Check for click events on the navbar burger icon
-    $(".navbar-burger").click(function() {
-      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-      $(".navbar-burger").toggleClass("is-active");
-      $(".navbar-menu").toggleClass("is-active");
+  /* Dics (if present) */
+  $(".b-dics").each(function () {
+    new Dics({ container: this, textPosition: "top" });
+  });
 
-    });
+  /* ------- Filmstrip controls (no carousel lib) ------- */
+  const strip = document.getElementById("fruit-strip");
+  const prevBtn = document.getElementById("stripPrev");
+  const nextBtn = document.getElementById("stripNext");
 
-    var options = {
-			slidesToScroll: 1,
-			slidesToShow: 3,
-			loop: true,
-			infinite: true,
-			autoplay: false,
-			autoplaySpeed: 3000,
-    }
+  if (strip && prevBtn && nextBtn) {
+    const amount = () => Math.min(strip.clientWidth, 600);
+    prevBtn.addEventListener("click", () =>
+      strip.scrollBy({ left: -amount(), behavior: "smooth" })
+    );
+    nextBtn.addEventListener("click", () =>
+      strip.scrollBy({ left: amount(), behavior: "smooth" })
+    );
+  }
 
-		// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
-
-    // Loop on each carousel initialized
-    for(var i = 0; i < carousels.length; i++) {
-    	// Add listener to  event
-    	carousels[i].on('before:show', state => {
-    		console.log(state);
-    	});
-    }
-
-    // Access to bulmaCarousel instance of an element
-    var element = document.querySelector('#my-element');
-    if (element && element.bulmaCarousel) {
-    	// bulmaCarousel instance is available as element.bulmaCarousel
-    	element.bulmaCarousel.on('before-show', function(state) {
-    		console.log(state);
-    	});
-    }
-
-    /*var player = document.getElementById('interpolation-video');
-    player.addEventListener('loadedmetadata', function() {
-      $('#interpolation-slider').on('input', function(event) {
-        console.log(this.value, player.duration);
-        player.currentTime = player.duration / 100 * this.value;
-      })
-    }, false);*/
-
-
-    bulmaSlider.attach();
-
-})
+  /* No bulmaSlider or bulmaCarousel anymore */
+});
